@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "How to build a K-D Tree"
+title: "如何构建一颗 K-D Tree"
 date:   2017-11-26
 categories: algorithm RVO
 permalink: how to build a k-d tree
@@ -9,8 +9,6 @@ permalink: how to build a k-d tree
 author: Ahn
 ---
 
-# K = 2
-# 定义 2-D Tree 的结构 
 ## 定义用于比较的关系式结构
 	
 	private struct FloatPair
@@ -18,87 +16,36 @@ author: Ahn
         private float a_;
         private float b_;
 
-		/**
-         * <summary>Constructs and initializes a pair of scalar
-         * values.</summary>
-         *
-         * <param name="a">The first scalar value.</returns>
-         * <param name="b">The second scalar value.</returns>
-         */
-
         internal FloatPair(float a, float b)
         {
             a_ = a;
             b_ = b;
         }
 	}
-相关运算符操作
+## 相关运算符操作
 
-	/**
-         * <summary>Returns true if the first pair of scalar values is less
-         * than the second pair of scalar values.</summary>
-         *
-         * <returns>True if the first pair of scalar values is less than the
-         * second pair of scalar values.</returns>
-         *
-         * <param name="pair1">The first pair of scalar values.</param>
-         * <param name="pair2">The second pair of scalar values.</param>
-         */
 
-        public static bool operator <(ValuePair pair1, ValuePair pair2)
-        {
-            return pair1.a_ < pair2.a_ || !(pair2.a_ < pair1.a_) && pair1.b_ < pair2.b_;
-        }
+    public static bool operator <(ValuePair pair1, ValuePair pair2)
+    {
+        return pair1.a_ < pair2.a_ || !(pair2.a_ < pair1.a_) && pair1.b_ < pair2.b_;
+    }    
 
-        /**
-         * <summary>Returns true if the first pair of scalar values is less
-         * than or equal to the second pair of scalar values.</summary>
-         *
-         * <returns>True if the first pair of scalar values is less than or
-         * equal to the second pair of scalar values.</returns>
-         *
-         * <param name="pair1">The first pair of scalar values.</param>
-         * <param name="pair2">The second pair of scalar values.</param>
-         */
+    public static bool operator <=(ValuePair pair1, ValuePair pair2)
+    {
+        return (pair1.a_ == pair2.a_ && pair1.b_ == pair2.b_) || pair1 < pair2;
+    }
 
-        public static bool operator <=(ValuePair pair1, ValuePair pair2)
-        {
-            return (pair1.a_ == pair2.a_ && pair1.b_ == pair2.b_) || pair1 < pair2;
-        }
+    public static bool operator >(ValuePair pair1, ValuePair pair2)
+    {
+        return !(pair1 <= pair2);
+    }
 
-        /**
-         * <summary>Returns true if the first pair of scalar values is
-         * greater than the second pair of scalar values.</summary>
-         *
-         * <returns>True if the first pair of scalar values is greater than
-         * the second pair of scalar values.</returns>
-         *
-         * <param name="pair1">The first pair of scalar values.</param>
-         * <param name="pair2">The second pair of scalar values.</param>
-         */
+    public static bool operator >=(ValuePair pair1, ValuePair pair2)
+    {
+        return !(pair1 < pair2);
+    }
 
-        public static bool operator >(ValuePair pair1, ValuePair pair2)
-        {
-            return !(pair1 <= pair2);
-        }
-
-        /**
-         * <summary>Returns true if the first pair of scalar values is
-         * greater than or equal to the second pair of scalar values.
-         * </summary>
-         *
-         * <returns>True if the first pair of scalar values is greater than
-         * or equal to the second pair of scalar values.</returns>
-         *
-         * <param name="pair1">The first pair of scalar values.</param>
-         * <param name="pair2">The second pair of scalar values.</param>
-         */
-
-        public static bool operator >=(ValuePair pair1, ValuePair pair2)
-        {
-            return !(pair1 < pair2);
-        }
-
+<!-- more -->
 # K-D树中节点有两种（关于障碍物的节点和关于Agent的节点）
 ## 关于障碍物的节点的定义
 	private class ObstacleTreeNode
